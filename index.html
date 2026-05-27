@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>営業力スタイル16タイプ 解説</title>
+    <style>
+        /* 全体のリセットと基本設定 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth; /* なめらかな自動スクロール */
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background-color: #f4f7fa; /* 清潔感のある明るい白ベース */
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        /* ヘッダーデザイン（見やすい青一色） */
+        header {
+            background-color: #1e3c72; /* 視認性の高い、洗練された深青一色 */
+            color: #ffffff;
+            text-align: center;
+            padding: 80px 20px 160px 20px; /* 波の重なりを綺麗に見せる余白 */
+            position: relative;
+            overflow: hidden;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        /* 16タイプの目次ボタン一覧（すりガラス風デザイン） */
+        .nav-container {
+            position: relative;
+            z-index: 2;
+            margin-top: 40px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* パソコンで綺麗に整列 */
+            gap: 12px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .nav-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .nav-button:hover {
+            background: linear-gradient(135deg, #ff7e47 0%, #ff631f 100%); /* アクセントのオレンジ */
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 126, 71, 0.35);
+        }
+
+        /* 2層の波ウェーブ */
+        .wave-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+            z-index: 1;
+        }
+         .wave-container svg {
+            position: relative;
+            display: block;
+            width: 100%; /* 画面幅にぴったり合わせる */
+            min-width: 1200px; /* 横幅が縮んでも波の形が潰れて左に隙間ができないように固定 */
+            left: 50%;
+            transform: translateX(-50%); /* 常に画面の真ん中を基準に左右いっぱいに広げる */
+            height: 80px;
+        }        
+        .wave-container .wave-orange {
+            fill: rgba(255, 126, 71, 0.8); /* 1層目：オレンジ */
+        }
+        .wave-container .wave-white {
+            fill: #f4f7fa; /* 2層目：背景と同じ白 */
+        }
+
+        /* コンテンツ全体のコンテナ */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* 各タイプを表示するカード */
+        .type-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(30, 60, 114, 0.05);
+            padding: 40px;
+            margin-bottom: 50px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            scroll-margin-top: 40px; /* 自動スクロール時に上が詰まらないための余白 */
+            
+            /* アニメーション用の初期状態 */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .type-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* PCサイズでは画像とテキストを横並びに */
+        @media (min-width: 768px) {
+            .type-card {
+                grid-template-columns: 320px 1fr;
+                align-items: center;
+            }
+        }
+
+        /* 画像エリア（自動切り抜き・フィット） */
+        .type-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background-color: #e6eef8;
+        }
+
+        /* テキストエリア */
+        .type-name {
+            font-size: 1.8rem;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .type-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: #ff7e47; /* アクセントのオレンジ */
+            border-radius: 2px;
+        }
+        .type-feature {
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #555555;
+            font-size: 1.05rem;
+        }
+
+        /* 強み・注意点ブロック */
+        .section-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title.strength { color: #2a5298; }
+        .section-title.caution { color: #ff7e47; }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: #444444;
+        }
+        li::before {
+            content: '・';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* ページトップへ戻るボタン */
+        .totop-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #ff7e47;
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 126, 71, 0.4);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        .totop-button:hover {
+            background-color: #1e3c72;
+            transform: translateY(-3px);
+        }
+        .totop-button.is-active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* スマホ対応：画面が狭いときは目次を2列にする */
+        @media (max-width: 500px) {
+            .nav-container {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 15px;
+                gap: 8px;
+            }
+            .nav-button {
+                font-size: 0.75rem;
+                padding: 10px 5px;
+                border-radius: 8px;
+            }
+            header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+
+
+<body>
+    <!-- 青一色背景＆アクセントカラーが映える2層波ウェーブヘッダー -->
+    <header>
+        <h1>営業力スタイル16タイプ 解説</h1>
+        <p>診断後に出たタイプの解説サイトになります！</p>
+        
+        <!-- 16タイプの目次ボタン一覧 -->
+        <div class="nav-container">
+            <a href="#type1" class="nav-button">01 フリーダム・ドリフター</a>
+            <a href="#type2" class="nav-button">02 ハピネス・スイッチャー</a>
+            <a href="#type3" class="nav-button">03 ゴール・シーカー</a>
+            <a href="#type4" class="nav-button">04 スマイル・ストライカー</a>
+            <a href="#type5" class="nav-button">05 ハート・コネクター</a>
+            <a href="#type6" class="nav-button">06 エンジョイ・コクター</a>
+            <a href="#type7" class="nav-button">07 リレーション・クローザー</a>
+            <a href="#type8" class="nav-button">08 ハッピー・ベストメーカー</a>
+            <a href="#type9" class="nav-button">09 スピード・マイスター</a>
+            <a href="#type10" class="nav-button">10 スマート・ハッピー</a>
+            <a href="#type11" class="nav-button">11 スピードハンター</a>
+            <a href="#type12" class="nav-button">12 ハイテンポ・ウィンメイカー</a>
+            <a href="#type13" class="nav-button">13 スピードブリッジャー</a>
+            <a href="#type14" class="nav-button">14 スピード・スマイルメーカー</a>
+            <a href="#type15" class="nav-button">15 ミッション・マネージャー</a>
+            <a href="#type16" class="nav-button">16 オールイン・オールスター</a>
+        </div>
+
+        <!-- しっかり色が見える2層の波型カーブ -->
+        <div class="wave-container">
+            <svg xmlns="http://w3.org" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,42.4V0Z" class="wave-orange"></path>
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c73.41,19,138.77,150,214.34,103V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="wave-white"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- メインコンテンツ -->
+    <div class="container">
+
+        <!-- 1) フリーダム・ドリフター -->
+        <div class="type-card" id="type1">
+            <img src="画像1.png" alt="フリーダム・ドリフター" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">1) フリーダム・ドリフター</h2>
+                <p class="type-feature">型にとらわれず自由に動く個人主義。決まりごとよりその場の臨機応変さで動き、独創的なアプローチを取ることが多い。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>柔軟な対応力で想定外の課題を解決する。</li>
+                    <li>新しい接触法やアイデアで顧客の興味を引ける。</li>
+                    <li>縛られない発想で差別化された提案ができる。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>一貫性や再現性に欠け、チーム運用にズレを生むことがある。</li>
+                    <li>ルールや手順を軽視しがちで、フォロー漏れが起きやすい。</li>
+                    <li>長期的な成果や評価制度に合わない場合、成果につながりにくい。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2) ハピネス・スイッチャー -->
+        <div class="type-card" id="type2">
+            <img src="画像2.png" alt="ハピネス・スイッチャー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">2) ハピネス・スイッチャー</h2>
+                <p class="type-feature">楽しさ優先でムードづくりが得意。顧客や社内の雰囲気を明るくし、場を和ませることで関係を作る。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>顧客との心理的距離を縮めて信頼を築きやすい。</li>
+                    <li>チームの士気を高める牽引力がある。</li>
+                    <li>難しい話題でも柔らかく伝えて場を壊さない。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>数字や細かいタスク管理がおろそかになりがち。</li>
+                    <li>真鍵な交渉では軽薄に見られるリスク。</li>
+                    <li>成果優先の場面で踏ん張りが弱くなることがある。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3) ゴール・シーカー -->
+        <div class="type-card" id="type3">
+            <img src="画像3.png" alt="ゴール・シーカー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">3) ゴール・シーカー</h2>
+                <p class="type-feature">結果至上主義で目標に一直線。戦略を立てて効率的に成果を狙うタイプ。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>KPI達成に向けた計画力と実行力が高い。</li>
+                    <li>優先順位の見極めが鋭く、無駄を排除する。</li>
+                    <li>成果を出すための自己管理能力がある。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>関係構築に時間を割かないため、長期案件での信頼が薄くなる可能性。</li>
+                    <li>手段優先になって顧客満足が二の次になるリスク。</li>
+                    <li>チームワークが必要な場面で摩擦を生むことがある。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4) スマイル・ストライカー -->
+        <div class="type-card" id="type4">
+            <img src="画像4.png" alt="スマイル・ストライカー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">4) スマイル・ストライカー</h2>
+                <p class="type-feature">成果も人間関係も両立させるバランス型。勝利を楽しみながら勝ちに行く。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>顧客に好かれつつ結果を出せる両立力。</li>
+                    <li>プレゼンや交渉で説得力と親和性を併せ持つ。</li>
+                    <li>チームでのロールモデルになれる。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>両立を意識しすぎて中途半端になりやすい場面がある。</li>
+                    <li>高負荷時にどちらかを犠牲にしがち。</li>
+                    <li>期待値が高いため、安定維持が課題。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5) ハート・コネクター -->
+        <div class="type-card" id="type5">
+            <img src="画像5.png" alt="ハート・コネクター" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">5) ハート・コネクター</h2>
+                <p class="type-feature">信頼構築を最優先する人情派。顧客の深い課題や想いに寄り添い、関係長期化を目指す。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>顧客ロイヤルティを高め、継続受注や紹介につながる。</li>
+                    <li>細かなニーズを掘り起こし、付加価値提案ができる。</li>
+                    <li>トラブル時の立て直し力が高い。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>即効性のある成果が出にくい場合がある。</li>
+                    <li>効率や数値管理がおろそかになりやすい。</li>
+                    <li>リソース配分の判断で優柔不断になることがある。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 6) エンジョイ・コクター -->
+        <div class="type-card" id="type6">
+            <img src="画像6.png" alt="エンジョイ・コクター" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">6) エンジョイ・コクター</h2>
+                <p class="type-feature">関係重視かつ職場や仕事の楽しさも大切にする人。和やかな関係を長く維持し、成果に繋げる。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>顧客満足と従業員満足の両方に貢献する。</li>
+                    <li>長期案件の推進力と継続的なフォローが得意。</li>
+                    <li>チーム内で人を巻き込むコミュニケーション力。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>数字的プレッシャーが強いとパフォーマンスが落ちることがある。</li>
+                    <li>効率改善の施策に消極的な傾向。</li>
+                    <li>目標未達時に判断が遅れる場合がある。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 7) リレーション・クローザー -->
+        <div class="type-card" id="type7">
+            <img src="画像7.png" alt="リレーション・クローザー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">7) リレーション・クローザー</h2>
+                <p class="type-feature">信頼を武器に成果を挙げる実践派。関係構築→クロージングに強い一連の流れを作る。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>長期的な信頼関係から効率よく受注に結び付ける。</li>
+                    <li>リピートや大型案件で安定的に成果を出す。</li>
+                    <li>顧客の本心を引き出すヒアリング力が高い。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>新規の効率的獲得方法やスピード重視の案件で苦戦することがある。</li>
+                    <li>関係重視が過ぎて短期の機会を逃すことがある。</li>
+                    <li>プロセス標準化を怠るとスケールしにくい。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 8) ハッピー・ベストメーカー -->
+        <div class="type-card" id="type8">
+            <img src="画像8.png" alt="ハッピー・ベストメーカー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">8) ハッピー・ベストメーカー</h2>
+                <p class="type-feature">関係・成果・充実をバランス良く追求するチームの太陽的存在。人も結果も両方大切にする。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>チームビルディングと成果創出の両方でリーダーシップを発揮。</li>
+                    <li>顧客対応に柔軟で、高満足度を生む。</li>
+                    <li>継続的改善と職場の雰囲気向上を同時に推進できる。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>期待値が高く、バーンアウトしやすい。</li>
+                    <li>取捨選択が苦手で、リソース過多になることがある。</li>
+                    <li>明確な優先順位付けが必要な場面で迷うことがある。</li>
+                </ul>
+            </div>
+        </div>
+        <!-- 9) スピード・マイスター -->
+        <div class="type-card" id="type9">
+            <img src="画像9.png" alt="スピード・マイスター" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">9) スピード・マイスター</h2>
+                <p class="type-feature">効率と速さを極める合理主義者。業務の回転率を高めて多くの接触を作る。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>業務プロセスの最適化や時間管理が得意。</li>
+                    <li>多数の案件を短期間で回せる。</li>
+                    <li>リードタイム短縮で競合優位を作れる。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>顧客ごとの深い関係構築が不足しがち。</li>
+                    <li>例外対応や細かい調整で粗が出ることがある。</li>
+                    <li>質を落とさずに速さを維持する仕組みが必要。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 10) スマート・ハッピー -->
+        <div class="type-card" id="type10">
+            <img src="画像10.png" alt="スマート・ハッピー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">10) スマート・ハッピー</h2>
+                <p class="type-feature">効率化しつつ、チームや自分の働きやすさを重視するスマートワーカー。合理性と快適さの両立を図る。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>ツール活用や仕組み化で生産性を上げつつ職場の満足度も守る。</li>
+                    <li>業務設計が上手で、再現性のある成果を出す。</li>
+                    <li>ストレスマネジメントがうまく長期で安定する。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>高効率路線が変化対応に弱い場合がある。</li>
+                    <li>楽しさ重視の人との価値観摩擦が起きやすい。</li>
+                    <li>成果目標の急激な上積みに対して臨機応変さが低くなることがある。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 11) スピードハンター -->
+        <div class="type-card" id="type11">
+            <img src="画像11.png" alt="スピードハンター" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">11) スピードハンター</h2>
+                <p class="type-feature">効率で成果を狙う俊足型。短期での勝負どころを見つけ最短距離で受注を取りにいく。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>短期案件への集中力と実行力が高い。</li>
+                    <li>ボトルネックを早期に潰して結果を出す。</li>
+                    <li>迅速な意思決定で機会損失を減らす。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>中長期の関係構築やフォローが手薄になりやすい。</li>
+                    <li>顧客の細かい要望で信頼を損ねるリスク。</li>
+                    <li>高速で回すための品質管理が必須。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 12) ハイテンポ・ウィンメイカー -->
+        <div class="type-card" id="type12">
+            <img src="画像12.png" alt="ハイテンポ・ウィンメイカー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">12) ハイテンポ・ウィンメイカー</h2>
+                <p class="type-feature">速さと成果を楽しみながら追うアスリート型。ハイペースで勝ちを重ねるのが得意。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>モチベーション高く大量アクションを継続できる。</li>
+                    <li>競争環境で力を発揮しやすい。</li>
+                    <li>短期的に大きな成果を作るドライブ力。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>長期的な関係や細かいケアが犠牲になりやすい。</li>
+                    <li>チームが同じテンポで動けないと連携に支障が出る。</li>
+                    <li>燃え尽きリスクに注意。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 13) スピードブリッジャー -->
+        <div class="type-card" id="type13">
+            <img src="画像13.png" alt="スピードブリッジャー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">13) スピードブリッジャー</h2>
+                <p class="type-feature">効率と関係性の両立を図る橋渡し役。速さを保ちつつ信頼を損なわない工夫が得意。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>標準化しながらも顧客ごとの配慮を忘れない。</li>
+                    <li>チーム内外の調整役として信頼される。</li>
+                    <li>速さと丁寧さのバランス感覚が高い。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>両立を目指すために個別対応が浅くなることがある。</li>
+                    <li>高度なカスタマイズ要求には対応が難しい場合がある。</li>
+                    <li>優先順位が不明瞭だとパフォーマンスが落ちる。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 14) スピード・スマイルメーカー -->
+        <div class="type-card" id="type14">
+            <img src="画像14.png" alt="スピード・スマイルメーカー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">14) スピード・スマイルメーカー</h2>
+                <p class="type-feature">速さと親和性を両立させる実務家。スピード感を持って顧客に好印象を与えるタイプ。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>早いレスポンスで信頼を築き、同時に好感を与える。</li>
+                    <li>新規顧客獲得と短期クロージングの両方で強み。</li>
+                    <li>顧客満足と効率の両立でリピートを作る。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>深い交渉や複雑な調整で手が回らない場合がある。</li>
+                    <li>表面的な親和性に頼りすぎると本質が抜けるリスク。</li>
+                    <li>長期的戦略を見失わない工夫が必要。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 15) ミッション・マネージャー -->
+        <div class="type-card" id="type15">
+            <img src="画像15.png" alt="ミッション・マネージャー" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">15) ミッション・マネージャー</h2>
+                <p class="type-feature">効率・関係・成果を実務レベルで統合する管理型リーダー。目標達成のために仕組みで回す。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>プロセス設計と人のマネジメントで安定した成果を出す。</li>
+                    <li>チームの目標達成にコミットし、再現性のある成果を生む。</li>
+                    <li>バランス感覚があり、状況に応じ戦術を変えられる。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>個人のモチベーションや創意工夫を抑え込みがち。</li>
+                    <li>現場の柔軟な判断が必要な場面で硬直する恐れ。</li>
+                    <li>管理業務が増えると現場感覚が薄れる可能性。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 16) オールイン・オールスター -->
+        <div class="type-card" id="type16">
+            <img src="画像16.png" alt="オールイン・オールスター" class="type-image">
+            <div class="type-content">
+                <h2 class="type-name">16) オールイン・オールスター</h2>
+                <p class="type-feature">効率・関係・成果・充実、すべてを高い水準で両立できるオールラウンダー。ハイパフォーマーで周囲の模範となる。</p>
+                <div class="section-title strength">💪 強み</div>
+                <ul>
+                    <li>どんな状況でも安定して高い成果を出せる。</li>
+                    <li>チームの中心として幅広い役割をこなせる。</li>
+                    <li>顧客満足とビジネス成果の両方を高い次元で達成する。</li>
+                </ul>
+                <div class="section-title caution">⚠️ 注意点</div>
+                <ul>
+                    <li>期待値が高くプレッシャーを一身に受けやすい。</li>
+                    <li>多方面に手を出し過ぎて燃耗するリスク。</li>
+                    <li>周囲との差が目立つことで摩擦や孤立が起きることがある。</li>
+                </ul>
+            </div>
+        </div>
+
+    </div> <!-- containerの閉じタグ -->
+
+    <!-- ページトップへ戻るボタン本体 -->
+    <button class="totop-button" id="toTopBtn" aria-label="ページトップへ戻る">▲</button>
+
+    <!-- 各種動きをつけるシステム（JavaScript） -->
+    <script>
+        // 1. スクロール時にカードをふわっと表示させる機能
+        const cards = document.querySelectorAll('.type-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        cards.forEach(card => {
+            observer.observe(card);
+        });
+
+        // 2. ページトップへ戻るボタンの表示・非表示コントロール
+        const toTopBtn = document.getElementById('toTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                toTopBtn.classList.add('is-active');
+            } else {
+                toTopBtn.classList.remove('is-active');
+            }
+        });
+
+        // 3. ボタンをクリックしたときに一番上まで滑らかに戻る機能
+        toTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
+
+
